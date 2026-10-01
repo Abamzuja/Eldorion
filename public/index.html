@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Eldorion · Atlas interativo</title>
+    <meta
+      name="description"
+      content="Explore as cidades e regiões de Eldorion. Um atlas interativo para aventureiros."
+    />
+    <link rel="icon" href="./assets/icons/favicon.svg" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Eldorion <span>Atlas do mundo</span></h1>
+      <p>Escolha um nome para explorar</p>
+    </header>
+    <main id="viewport" aria-label="Mapa interativo de Eldorion">
+      <div id="map">
+        <img
+          class="world"
+          src="./assets/images/maps/eldorion.webp"
+          width="1536"
+          height="1024"
+          alt="Mapa de Eldorion: Verdantia a noroeste, Aniloria a nordeste, Serpenat ao sul e ilhas entre os continentes"
+          draggable="false"
+        />
+        <div id="markers"></div>
+      </div>
+    </main>
+    <nav class="controls" aria-label="Controles do mapa">
+      <button id="out" aria-label="Diminuir zoom">−</button
+      ><button id="fit">Mapa inteiro</button
+      ><button id="in" aria-label="Aumentar zoom">+</button>
+    </nav>
+    <dialog id="detail" aria-labelledby="place-title">
+      <button class="close" aria-label="Fechar detalhes">×</button>
+      <div id="gallery"></div>
+      <article>
+        <p id="place-region" class="eyebrow"></p>
+        <h2 id="place-title"></h2>
+        <p id="place-description"></p>
+        <div id="thumbs"></div>
+      </article>
+    </dialog>
+    <script src="./assets/js/data/locations.js"></script>
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>
