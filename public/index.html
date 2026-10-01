@@ -12,15 +12,30 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
+    <div id="loader" hidden role="status" aria-live="polite">
+      <div class="compass" aria-hidden="true">✦</div>
+      <strong>Eldorion</strong>
+      <p id="load-message">Preparando o mapa…</p>
+      <button id="retry" hidden>Tentar novamente</button>
+    </div>
+    <noscript
+      ><p class="no-script">
+        Ative o JavaScript para explorar os locais do mapa.
+      </p></noscript
+    >
     <header>
       <h1>Eldorion <span>Atlas do mundo</span></h1>
-      <p>Escolha um nome para explorar</p>
+      <p>Arraste para explorar · Selecione um local</p>
     </header>
-    <main id="viewport" aria-label="Mapa interativo de Eldorion">
+    <main
+      id="viewport"
+      tabindex="0"
+      aria-label="Mapa interativo de Eldorion. Use as setas para mover e mais ou menos para ampliar."
+    >
       <div id="map">
         <img
           class="world"
-          src="./assets/images/maps/eldorion.webp"
+          src="./assets/images/maps/eldorion-original.png"
           width="1536"
           height="1024"
           alt="Mapa de Eldorion: Verdantia a noroeste, Aniloria a nordeste, Serpenat ao sul e ilhas entre os continentes"
@@ -34,7 +49,7 @@
       ><button id="fit">Mapa inteiro</button
       ><button id="in" aria-label="Aumentar zoom">+</button>
     </nav>
-    <dialog id="detail" aria-labelledby="place-title">
+    <section id="detail" hidden role="region" aria-labelledby="place-title">
       <button class="close" aria-label="Fechar detalhes">×</button>
       <div id="gallery"></div>
       <article>
@@ -43,7 +58,7 @@
         <p id="place-description"></p>
         <div id="thumbs"></div>
       </article>
-    </dialog>
+    </section>
     <script src="./assets/js/data/locations.js"></script>
     <script src="./assets/js/app.js"></script>
   </body>

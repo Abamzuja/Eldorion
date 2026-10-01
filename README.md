@@ -44,4 +44,21 @@ O HTML carrega `locations.js` antes de `app.js`; mantenha essa ordem. Os scripts
 
 ## Sobre esta organização
 
-A formatação, o conteúdo e o funcionamento dos arquivos enviados foram preservados. Foram alterados apenas a distribuição em pastas, os caminhos dos arquivos e a separação dos dados do código de interação. As três imagens da galeria receberam nomes descritivos. Este guia substitui o antigo LEIA-ME.txt.
+Esta versão usa integralmente o locations.js enviado com 25 locais, incluindo Floresta dos Sonhos, Farol Afogado, Vila Hikuru e Coralinas, com as posições ajustadas pelo autor.
+
+## Interações
+
+- Tela de carregamento com bússola, vinculada ao carregamento real do mapa. Em caso de falha, há um botão para tentar novamente.
+- Arraste o mapa com o mouse ou com um dedo. Use a roda do mouse, os botões +/− ou o gesto de pinça com dois dedos para ampliar.
+- Use “Mapa inteiro” para fechar a ficha e restaurar a visão completa.
+- Selecione um marcador para destacar o local, aproximar o mapa e abrir sua ficha lateral. No celular, a ficha aparece na parte inferior.
+- Feche a ficha pelo botão × ou pela tecla Escape. As setas movem o mapa quando o mapa ou um marcador está em foco; + e − controlam o zoom.
+- As animações respeitam a preferência de movimento reduzido do dispositivo.
+- A galeria de Aurora Magna permanece disponível.
+
+## Atualizar uma instalação anterior
+
+Substitua index.html, assets/css/style.css, assets/js/app.js e assets/js/data/locations.js pelos arquivos de public/. Você também pode enviar todo o conteúdo de public/, preservando as pastas.
+
+Os nomes, descrições, coordenadas e caminhos de imagens permanecem em assets/js/data/locations.js. O código de interação está em assets/js/app.js.
+

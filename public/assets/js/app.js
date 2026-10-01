@@ -1,98 +1,270 @@
-const map = document.querySelector("#map"),
-  viewport = document.querySelector("#viewport"),
-  dialog = document.querySelector("#detail"),
-  gallery = document.querySelector("#gallery");
-let zoom = 1,
-  lastMarker;
-function crop(p) {
-  gallery.replaceChildren();
-  const img = new Image();
-  img.src = "./assets/images/maps/eldorion.webp";
-  img.alt = "Visão ampliada de " + p[0];
-  img.className = "crop";
-  const w = gallery.clientWidth,
-    h = gallery.clientHeight,
-    s = Math.max(w / 440, h / 300);
-  img.style.width = 1536 * s + "px";
-  img.style.height = 1024 * s + "px";
-  img.style.left = w / 2 - (p[2] / 100) * 1536 * s + "px";
-  img.style.top = h / 2 - ((p[3] - 3) / 100) * 1024 * s + "px";
-  gallery.append(img);
+const viewport = document.querySelector('#viewport');
+const map = document.querySelector('#map');
+const world = document.querySelector('.world');
+const panel = document.querySelector('#detail');
+const gallery = document.querySelector('#gallery');
+const loader = document.querySelector('#loader');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const mobile = matchMedia('(max-width: 700px)');
+let scale = 1, fitScale = 1, x = 0, y = 0;
+let selected = null, lastMarker = null, gallerySource = '';
+let animation = 0, moved = false, suppressClickUntil = 0;
+const pointers = new Map();
+const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+function area() {
+  return { w: viewport.clientWidth, h: viewport.clientHeight };
 }
-function show(p, b) {
-  lastMarker = b;
-  document.querySelector("#place-title").textContent = p[0];
-  document.querySelector("#place-region").textContent = p[1];
-  document.querySelector("#place-description").textContent = p[4];
-  const thumbs = document.querySelector("#thumbs");
-  thumbs.replaceChildren();
-  dialog.showModal();
+function constrain() {
+  let { w, h } = area();
+  if (!panel.hidden) {
+    if (mobile.matches) h -= panel.offsetHeight;
+    else w -= panel.offsetWidth;
+  }
+  const mw = 1536 * scale, mh = 1024 * scale;
+  x = mw <= w ? (w - mw) / 2 : clamp(x, w - mw, 0);
+  y = mh <= h ? (h - mh) / 2 : clamp(y, h - mh, 0);
+}
+function render() {
+  constrain();
+  map.style.width = `${1536 * scale}px`;
+  map.style.height = `${1024 * scale}px`;
+  map.style.transform = `translate(${x}px, ${y}px)`;
+  document.querySelector('#out').disabled = scale <= fitScale + 0.001;
+  document.querySelector('#in').disabled = scale >= fitScale * 5 - 0.001;
+}
+function stopAnimation() { cancelAnimationFrame(animation); }
+function go(nextScale, nextX, nextY, smooth = false) {
+  stopAnimation();
+  nextScale = clamp(nextScale, fitScale, fitScale * 5);
+  if (!smooth || reducedMotion.matches) {
+    scale = nextScale; x = nextX; y = nextY; render(); return;
+  }
+  const from = { scale, x, y }, start = performance.now();
+  const frame = now => {
+    const t = Math.min(1, (now - start) / 380), ease = 1 - (1 - t) ** 3;
+    scale = from.scale + (nextScale - from.scale) * ease;
+    x = from.x + (nextX - from.x) * ease;
+    y = from.y + (nextY - from.y) * ease;
+    render();
+    if (t < 1) animation = requestAnimationFrame(frame);
+  };
+  animation = requestAnimationFrame(frame);
+}
+function zoomAt(factor, px, py, smooth = false) {
+  const next = clamp(scale * factor, fitScale, fitScale * 5);
+  go(next, px - (px - x) * next / scale, py - (py - y) * next / scale, smooth);
+}
+function fit(smooth = false) {
+  const { w, h } = area();
+  go(fitScale, (w - 1536 * fitScale) / 2, (h - 1024 * fitScale) / 2, smooth);
+}
+function crop(p) {
+  const w = gallery.clientWidth, h = gallery.clientHeight;
+  const s = Math.max(w / 440, h / 300);
+  const img = new Image();
+  img.draggable = false;
+  img.src = world.getAttribute('src');
+  img.alt = `Visão ampliada de ${p[0]}`;
+  img.className = 'crop';
+  img.style.width = `${1536 * s}px`;
+  img.style.height = `${1024 * s}px`;
+  img.style.left = `${clamp(w / 2 - p[2] / 100 * 1536 * s, w - 1536 * s, 0)}px`;
+  img.style.top = `${clamp(h / 2 - (p[3] - 3) / 100 * 1024 * s, h - 1024 * s, 0)}px`;
+  gallery.replaceChildren(img);
+}
+function setPicture(src, caption) {
+  gallerySource = src;
+  if (!src) { crop(selected); return; }
+  const img = new Image();
+  img.draggable = false;
+  img.alt = caption;
+  img.onerror = () => {
+    const message = document.createElement('p');
+    message.className = 'image-error';
+    message.textContent = 'Não foi possível carregar esta imagem. Selecione “No mapa” para voltar.';
+    gallery.replaceChildren(message);
+  };
+  img.src = src;
+  gallery.replaceChildren(img);
+}
+function show(p, button) {
+  selected = p;
+  lastMarker?.setAttribute('aria-expanded', 'false');
+  lastMarker?.classList.remove('selected');
+  lastMarker = button;
+  button.classList.add('selected');
+  button.setAttribute('aria-expanded', 'true');
+  document.querySelector('#place-title').textContent = p[0];
+  document.querySelector('#place-region').textContent = p[1];
+  document.querySelector('#place-description').textContent = p[4];
+  panel.hidden = false;
+  document.body.classList.add('panel-open');
+  panel.scrollTop = 0;
+  gallerySource = '';
   crop(p);
-  if (p[0] === "Aurora Magna") {
-    [["", "No mapa"], ...aurora].forEach(([src, title], i) => {
-      let bt = document.createElement("button");
-      bt.textContent = title;
-      bt.setAttribute("aria-pressed", String(i === 0));
-      bt.onclick = () => {
-        thumbs
-          .querySelectorAll("button")
-          .forEach((t) => t.setAttribute("aria-pressed", String(t === bt)));
-        if (!src) crop(p);
-        else {
-          let im = new Image();
-          im.src = src;
-          im.alt = title;
-          gallery.replaceChildren(im);
-        }
+  const thumbs = document.querySelector('#thumbs');
+  thumbs.replaceChildren();
+  if (p[0] === 'Aurora Magna') {
+    [['', 'No mapa'], ...aurora].forEach(([src, title], index) => {
+      const item = document.createElement('button');
+      item.textContent = title;
+      item.setAttribute('aria-pressed', String(index === 0));
+      item.onclick = () => {
+        thumbs.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === item)));
+        setPicture(src, title);
       };
-      thumbs.append(bt);
+      thumbs.append(item);
     });
   }
+  const { w, h } = area();
+  const next = Math.max(scale, fitScale * 1.7);
+  const cx = mobile.matches ? w / 2 : (w - panel.offsetWidth) / 2;
+  const cy = mobile.matches ? (h - panel.offsetHeight) / 2 : h / 2;
+  go(next, cx - p[2] / 100 * 1536 * next, cy - p[3] / 100 * 1024 * next, true);
+  document.querySelector('.close').focus({ preventScroll: true });
 }
-places.forEach((p) => {
-  let b = document.createElement("button");
-  b.className = "marker" + (p[5] ? " region" : "");
-  b.style.left = p[2] + "%";
-  b.style.top = p[3] + "%";
-  b.textContent = p[0];
-  b.onclick = () => show(p, b);
-  document.querySelector("#markers").append(b);
+function closePanel() {
+  panel.hidden = true;
+  document.body.classList.remove('panel-open');
+  lastMarker?.classList.remove('selected');
+  lastMarker?.setAttribute('aria-expanded', 'false');
+  lastMarker?.focus({ preventScroll: true });
+  selected = null;
+  render();
+}
+places.forEach(p => {
+  const button = document.createElement('button');
+  button.className = `marker${p[5] ? ' region' : ''}`;
+  button.style.left = `${p[2]}%`;
+  button.style.top = `${p[3]}%`;
+  button.textContent = p[0];
+  button.setAttribute('aria-controls', 'detail');
+  button.setAttribute('aria-expanded', 'false');
+  button.onclick = () => {
+    if (performance.now() < suppressClickUntil) return;
+    show(p, button);
+  };
+  document.querySelector('#markers').append(button);
 });
-function resize() {
-  const min = window.innerWidth < 700 ? 1200 : 0;
-  map.style.width = Math.max(window.innerWidth, min) * zoom + "px";
+
+// Prevent the browser's native drag/selection from interrupting map panning.
+world.draggable = false;
+viewport.addEventListener('dragstart', event => event.preventDefault(), true);
+viewport.addEventListener('selectstart', event => event.preventDefault(), true);
+viewport.addEventListener('mousedown', event => {
+  if (event.button === 0) event.preventDefault();
+}, true);
+
+// Pointer Events: mouse dragging, single-finger panning and two-finger pinch.
+viewport.addEventListener('pointerdown', event => {
+  if (event.button !== 0) return;
+  // Suppress native image/text dragging before it can trigger pointercancel.
+  if (event.pointerType !== 'touch') event.preventDefault();
+  const marker = event.target.closest('.marker');
+  (marker || viewport).focus({ preventScroll: true });
+  stopAnimation();
+  if (!pointers.size) moved = false;
+  pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  // Capture on the pressed element to preserve ordinary marker clicks.
+  event.target.setPointerCapture(event.pointerId);
+});
+viewport.addEventListener('pointermove', event => {
+  if (!pointers.has(event.pointerId)) return;
+  if (event.cancelable) event.preventDefault();
+  const before = [...pointers.values()];
+  const previous = pointers.get(event.pointerId);
+  const dx = event.clientX - previous.x, dy = event.clientY - previous.y;
+  if (!moved && Math.hypot(dx, dy) < 4 && pointers.size === 1) return;
+  moved = true;
+  viewport.classList.add('dragging');
+  pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+  if (pointers.size === 2) {
+    const after = [...pointers.values()];
+    const dist = a => Math.hypot(a[0].x - a[1].x, a[0].y - a[1].y);
+    const center = a => ({ x: (a[0].x + a[1].x) / 2, y: (a[0].y + a[1].y) / 2 });
+    const a = center(before), b = center(after), rect = viewport.getBoundingClientRect();
+    const next = clamp(scale * dist(after) / Math.max(1, dist(before)), fitScale, fitScale * 5);
+    x = b.x - rect.left - (a.x - rect.left - x) * next / scale;
+    y = b.y - rect.top - (a.y - rect.top - y) * next / scale;
+    scale = next;
+  } else { x += dx; y += dy; }
+  render();
+});
+function endPointer(event) {
+  if (!pointers.has(event.pointerId)) return;
+  pointers.delete(event.pointerId);
+  if (moved) suppressClickUntil = performance.now() + 300;
+  if (!pointers.size) viewport.classList.remove('dragging');
 }
-function change(next) {
-  const old = zoom,
-    cx = viewport.scrollLeft + viewport.clientWidth / 2,
-    cy = viewport.scrollTop + viewport.clientHeight / 2;
-  zoom = Math.min(3, Math.max(1, next));
-  resize();
-  viewport.scrollLeft = (cx * zoom) / old - viewport.clientWidth / 2;
-  viewport.scrollTop = (cy * zoom) / old - viewport.clientHeight / 2;
-}
-document.querySelector("#in").onclick = () => change(zoom + 0.4);
-document.querySelector("#out").onclick = () => change(zoom - 0.4);
-document.querySelector("#fit").onclick = () => {
-  zoom = 1;
-  map.style.width = window.innerWidth + "px";
-  viewport.scrollTo(0, 0);
-};
-document.querySelector(".close").onclick = () => dialog.close();
-dialog.addEventListener("click", (e) => {
-  if (e.target === dialog) {
-    const r = dialog.getBoundingClientRect();
-    if (
-      e.clientX < r.left ||
-      e.clientX > r.right ||
-      e.clientY < r.top ||
-      e.clientY > r.bottom
-    )
-      dialog.close();
+['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => viewport.addEventListener(type, endPointer));
+window.addEventListener('blur', () => {
+  if (moved) suppressClickUntil = performance.now() + 300;
+  pointers.clear();
+  moved = false;
+  viewport.classList.remove('dragging');
+});
+viewport.addEventListener('wheel', event => {
+  // Preserve browser accessibility zoom when Ctrl/Command is held.
+  if (event.ctrlKey || event.metaKey) return;
+  event.preventDefault();
+  const r = viewport.getBoundingClientRect();
+  const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? r.height : 1);
+  zoomAt(Math.exp(-clamp(delta, -300, 300) * 0.002), event.clientX - r.left, event.clientY - r.top);
+}, { passive: false });
+viewport.addEventListener('keydown', event => {
+  const moves = { ArrowLeft: [70, 0], ArrowRight: [-70, 0], ArrowUp: [0, 70], ArrowDown: [0, -70] };
+  if (moves[event.key]) {
+    event.preventDefault(); stopAnimation();
+    x += moves[event.key][0]; y += moves[event.key][1]; render();
+  } else if (['+', '=', '-'].includes(event.key)) {
+    event.preventDefault(); const { w, h } = area();
+    zoomAt(event.key === '-' ? 1 / 1.3 : 1.3, w / 2, h / 2, true);
   }
 });
-dialog.addEventListener("close", () =>
-  lastMarker?.focus({ preventScroll: true }),
-);
-window.addEventListener("resize", resize);
-resize();
+document.querySelector('#in').onclick = () => { const { w, h } = area(); zoomAt(1.3, w / 2, h / 2, true); };
+document.querySelector('#out').onclick = () => { const { w, h } = area(); zoomAt(1 / 1.3, w / 2, h / 2, true); };
+document.querySelector('#fit').onclick = () => { if (!panel.hidden) closePanel(); fit(true); };
+document.querySelector('.close').onclick = closePanel;
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && !panel.hidden) closePanel(); });
+function resize() {
+  stopAnimation();
+  const { w, h } = area();
+  fitScale = Math.min(w / 1536, h / 1024);
+  scale = clamp(scale, fitScale, fitScale * 5);
+  render();
+  if (selected && !gallerySource) crop(selected);
+}
+window.addEventListener('resize', resize);
+new ResizeObserver(() => { if (selected && !gallerySource) crop(selected); }).observe(gallery);
+resize(); fit();
+
+// Real image loading state, including cached images and retry on failure.
+loader.hidden = false;
+let loadAttempt = 0;
+async function ready() {
+  const attempt = ++loadAttempt;
+  try { await world.decode(); } catch { /* naturalWidth distinguishes usable images */ }
+  if (attempt !== loadAttempt) return;
+  if (!world.naturalWidth) { failed(); return; }
+  loader.classList.add('finished');
+  if (reducedMotion.matches) loader.hidden = true;
+  else setTimeout(() => { loader.hidden = true; }, 260);
+}
+function failed() {
+  loader.classList.remove('finished');
+  loader.hidden = false;
+  loader.classList.add('failed');
+  document.querySelector('#load-message').textContent = 'Não foi possível abrir o mapa.';
+  document.querySelector('#retry').hidden = false;
+}
+world.addEventListener('load', ready);
+world.addEventListener('error', failed);
+document.querySelector('#retry').onclick = () => {
+  loader.classList.remove('failed');
+  document.querySelector('#retry').hidden = true;
+  document.querySelector('#load-message').textContent = 'Preparando o mapa…';
+  const path = world.getAttribute('src').split('?')[0];
+  world.src = `${path}?retry=${Date.now()}`;
+};
+if (world.complete) world.naturalWidth ? ready() : failed();

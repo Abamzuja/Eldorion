@@ -45,7 +45,7 @@ const places = [
     "Alto Trovão",
     "Ilhas flutuantes",
     50,
-    45,
+    42,
     "Ilhas suspensas nas nuvens sobre o oceano, onde a magia do vento e as aventuras aéreas fazem parte da paisagem. Misteriosas e de acesso difícil, são governadas por um carismático dragão de prata em forma de draconato.",
   ],
   [
@@ -109,9 +109,17 @@ const places = [
   [
     "Terras Perdidas de Lysara",
     "Serpenat",
-    44,
-    66,
+    48,
+    65,
     "Uma região esquecida no tempo, onde a realidade é instável e lugares históricos de diferentes eras coexistem. Explorar Lysara é atravessar paisagens e visões de épocas distintas.",
+    true,
+  ],
+  [
+    "Floresta dos Sonhos",
+    "Serpenat",
+    35,
+    70,
+    "Uma floresta mágica e exuberante nos arredores de Aurora Magna, em Serpenat. Conhecida pela magia antiga que permeia suas paisagens e pelas criaturas místicas que a habitam.",
     true,
   ],
   [
@@ -141,8 +149,8 @@ const places = [
   [
     "Costa Esmeralda",
     "Serpenat",
-    67,
-    84,
+    70,
+    80,
     "Praias e enseadas secretas marcam a costa sudeste de Serpenat. Piratas escondem tesouros e aportam na região, enquanto monstros marinhos ameaçam as viagens pelo oceano.",
     true,
   ],
@@ -153,6 +161,29 @@ const places = [
     84,
     "Um labirinto subterrâneo no sudoeste de Serpenat, famoso por mistérios e lendas. Exploradores procuram entre suas paredes rochosas um portal que, segundo as histórias, levaria à morada de deuses.",
     true,
+  ],
+  [
+    "Coralinas",
+    "Arquipélago de recifes de coral",
+    9,
+    88,
+    "Um pequeno arquipélago de ilhotas tropicais cercadas por recifes de coral, a sudoeste de Serpenat.",
+    true,
+  ],
+  [
+    "Farol Afogado",
+    "Serpenat",
+    78,
+    88,
+    "Um farol parcialmente submerso nos recifes ao largo da Costa Esmeralda, a sudeste de Serpenat.",
+    true,
+  ],
+  [
+    "Vila Hikuru",
+    "Serpenat",
+    27,
+    58,
+    "Um pequeno vilarejo na porção noroeste de Serpenat. É muito menor que as grandes cidades do continente e possui arquitetura com construções de madeira e telhados tradicionais.",
   ],
 ];
 
