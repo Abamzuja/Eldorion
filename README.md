@@ -21,7 +21,6 @@ Para visualizar no computador, abra `public/index.html` no navegador.
 | `public/assets/images/maps/` | Mapa otimizado usado pelo site |
 | `public/assets/images/locations/aurora-magna/` | Imagens de Aurora Magna com nomes descritivos |
 | `public/assets/icons/` | Favicon |
-| `source-assets/maps/` | Mapa PNG original para edição; não precisa ser publicado |
 
 ## Editar locais e imagens
 
@@ -44,7 +43,7 @@ O HTML carrega `locations.js` antes de `app.js`; mantenha essa ordem. Os scripts
 
 ## Sobre esta organização
 
-Esta versão usa integralmente o locations.js enviado com 25 locais, incluindo Floresta dos Sonhos, Farol Afogado, Vila Hikuru e Coralinas, com as posições ajustadas pelo autor.
+Esta versão contém 31 pontos clicáveis, alinhados à referência rotulada do novo mapa. Foram adicionados Telora, Nerália, Escadaria dos Titãs, Aeral, Caldra e Forja Silenciosa. As descrições existentes foram preservadas; as dos seis novos pontos são apenas resumos geográficos baseados na referência.
 
 ## Interações
 
@@ -62,3 +61,11 @@ Substitua index.html, assets/css/style.css, assets/js/app.js e assets/js/data/lo
 
 Os nomes, descrições, coordenadas e caminhos de imagens permanecem em assets/js/data/locations.js. O código de interação está em assets/js/app.js.
 
+
+## Atualização do mapa — 02/10/2026
+
+O fundo usado é o PNG sem rótulos de 3344 × 1882 já presente no ZIP recebido. A imagem rotulada fornecida foi usada como referência para as posições; não foi colocada como fundo, para evitar nomes duplicados.
+
+As coordenadas de cada local são porcentagens da largura e da altura da imagem. Elas correspondem ao ponto geográfico, com o nome clicável logo abaixo. Zoom, enquadramento e recortes agora usam as dimensões reais da imagem, preservando sua proporção.
+
+Para atualizar uma instalação com este mesmo mapa, substitua public/index.html, public/assets/css/style.css, public/assets/js/app.js e public/assets/js/data/locations.js. Para instalar do zero, publique todo o conteúdo de public/. Recarregue com Ctrl+F5.

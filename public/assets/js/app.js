@@ -1,6 +1,8 @@
 const viewport = document.querySelector('#viewport');
 const map = document.querySelector('#map');
 const world = document.querySelector('.world');
+let mapWidth = Number(world.getAttribute('width')) || 3344;
+let mapHeight = Number(world.getAttribute('height')) || 1882;
 const panel = document.querySelector('#detail');
 const gallery = document.querySelector('#gallery');
 const loader = document.querySelector('#loader');
@@ -21,14 +23,14 @@ function constrain() {
     if (mobile.matches) h -= panel.offsetHeight;
     else w -= panel.offsetWidth;
   }
-  const mw = 1536 * scale, mh = 1024 * scale;
+  const mw = mapWidth * scale, mh = mapHeight * scale;
   x = mw <= w ? (w - mw) / 2 : clamp(x, w - mw, 0);
   y = mh <= h ? (h - mh) / 2 : clamp(y, h - mh, 0);
 }
 function render() {
   constrain();
-  map.style.width = `${1536 * scale}px`;
-  map.style.height = `${1024 * scale}px`;
+  map.style.width = `${mapWidth * scale}px`;
+  map.style.height = `${mapHeight * scale}px`;
   map.style.transform = `translate(${x}px, ${y}px)`;
   document.querySelector('#out').disabled = scale <= fitScale + 0.001;
   document.querySelector('#in').disabled = scale >= fitScale * 5 - 0.001;
@@ -57,20 +59,20 @@ function zoomAt(factor, px, py, smooth = false) {
 }
 function fit(smooth = false) {
   const { w, h } = area();
-  go(fitScale, (w - 1536 * fitScale) / 2, (h - 1024 * fitScale) / 2, smooth);
+  go(fitScale, (w - mapWidth * fitScale) / 2, (h - mapHeight * fitScale) / 2, smooth);
 }
 function crop(p) {
   const w = gallery.clientWidth, h = gallery.clientHeight;
-  const s = Math.max(w / 440, h / 300);
+  const s = Math.max(w / (mapWidth * 0.23), h / (mapHeight * 0.30));
   const img = new Image();
   img.draggable = false;
   img.src = world.getAttribute('src');
   img.alt = `Visão ampliada de ${p[0]}`;
   img.className = 'crop';
-  img.style.width = `${1536 * s}px`;
-  img.style.height = `${1024 * s}px`;
-  img.style.left = `${clamp(w / 2 - p[2] / 100 * 1536 * s, w - 1536 * s, 0)}px`;
-  img.style.top = `${clamp(h / 2 - (p[3] - 3) / 100 * 1024 * s, h - 1024 * s, 0)}px`;
+  img.style.width = `${mapWidth * s}px`;
+  img.style.height = `${mapHeight * s}px`;
+  img.style.left = `${clamp(w / 2 - p[2] / 100 * mapWidth * s, w - mapWidth * s, 0)}px`;
+  img.style.top = `${clamp(h / 2 - p[3] / 100 * mapHeight * s, h - mapHeight * s, 0)}px`;
   gallery.replaceChildren(img);
 }
 function setPicture(src, caption) {
@@ -121,7 +123,7 @@ function show(p, button) {
   const next = Math.max(scale, fitScale * 1.7);
   const cx = mobile.matches ? w / 2 : (w - panel.offsetWidth) / 2;
   const cy = mobile.matches ? (h - panel.offsetHeight) / 2 : h / 2;
-  go(next, cx - p[2] / 100 * 1536 * next, cy - p[3] / 100 * 1024 * next, true);
+  go(next, cx - p[2] / 100 * mapWidth * next, cy - p[3] / 100 * mapHeight * next, true);
   document.querySelector('.close').focus({ preventScroll: true });
 }
 function closePanel() {
@@ -138,6 +140,8 @@ places.forEach(p => {
   button.className = `marker${p[5] ? ' region' : ''}`;
   button.style.left = `${p[2]}%`;
   button.style.top = `${p[3]}%`;
+  button.title = p[0];
+  button.setAttribute('data-place', p[0]);
   button.textContent = p[0];
   button.setAttribute('aria-controls', 'detail');
   button.setAttribute('aria-expanded', 'false');
@@ -230,7 +234,7 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape' && !p
 function resize() {
   stopAnimation();
   const { w, h } = area();
-  fitScale = Math.min(w / 1536, h / 1024);
+  fitScale = Math.min(w / mapWidth, h / mapHeight);
   scale = clamp(scale, fitScale, fitScale * 5);
   render();
   if (selected && !gallerySource) crop(selected);
@@ -247,6 +251,10 @@ async function ready() {
   try { await world.decode(); } catch { /* naturalWidth distinguishes usable images */ }
   if (attempt !== loadAttempt) return;
   if (!world.naturalWidth) { failed(); return; }
+  mapWidth = world.naturalWidth;
+  mapHeight = world.naturalHeight;
+  resize();
+  if (!selected) fit();
   loader.classList.add('finished');
   if (reducedMotion.matches) loader.hidden = true;
   else setTimeout(() => { loader.hidden = true; }, 260);

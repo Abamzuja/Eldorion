@@ -291,7 +291,7 @@ h2 {
 [hidden] { display: none !important; }
 #viewport { position: fixed; inset: 76px 0 0; height: auto; overflow: hidden; display: block; touch-action: none; cursor: grab; background: #06364b; }
 #viewport.dragging, #viewport.dragging * { cursor: grabbing; }
-#map { position: absolute; left: 0; top: 0; width: 1536px; height: 1024px; transform-origin: 0 0; }
+#map { position: absolute; left: 0; top: 0; width: 3344px; height: 1882px; transform-origin: 0 0; }
 .world { height: 100%; pointer-events: none; }
 header { height: 76px; background: #042b3f; border-bottom: 1px solid #d6bd7e40; }
 .marker { min-height: 32px; transition: background .18s, color .18s, box-shadow .18s; }
@@ -348,4 +348,27 @@ button:focus-visible, #viewport:focus-visible { outline: 2px solid #fff0c9; outl
 }
 #gallery img {
   -webkit-user-drag: none;
+}
+
+/* Coordinates mark the geographic point; labels sit immediately below it. */
+.marker {
+  transform: translate(-50%, 8px);
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+}
+.marker::before {
+  top: -11px;
+}
+.marker.region {
+  max-width: 200px;
+}
+
+/* Separate the neighboring Caldra and Forja Silenciosa labels. */
+.marker[data-place="Forja Silenciosa"] {
+  transform: translate(-50%, calc(-100% - 8px));
+}
+.marker[data-place="Forja Silenciosa"]::before {
+  top: auto;
+  bottom: -11px;
 }
