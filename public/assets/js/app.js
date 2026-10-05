@@ -25,6 +25,17 @@ const locationImages = {
   'Cordilheiras Ordraco': './assets/images/locations/cordilheiras-ordraco.png',
   'Ferrova': './assets/images/locations/ferrova.png',
   'Engenópolis': './assets/images/locations/engenopolis.png',
+  'Escadaria dos Titãs': './assets/images/locations/escada-gigantes.png',
+  'Nerália': './assets/images/locations/neralia.png',
+  'Telora': './assets/images/locations/telora.png',
+  'Deserto dos Espelhos': './assets/images/locations/deserto-espelhos.png',
+  'Azharat': './assets/images/locations/azharat.png',
+  'Luzenar': './assets/images/locations/luzenar.png',
+  'Porto de Oghma': './assets/images/locations/oghma.png',
+  'Aeral': './assets/images/locations/aeral.png',
+  'Tempodora': './assets/images/locations/tempodora.png',
+  'Alto Trovão': './assets/images/locations/alto-trovao.png',
+  'Ilhas Draca’el': './assets/images/locations/dracael.png',
 };
 let scale = 1, fitScale = 1, x = 0, y = 0;
 let selected = null, lastMarker = null, gallerySource = '';
