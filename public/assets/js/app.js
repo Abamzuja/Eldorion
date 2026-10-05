@@ -24,6 +24,7 @@ const locationImages = {
   'Sylvanthal': './assets/images/locations/sylvanthal.png',
   'Cordilheiras Ordraco': './assets/images/locations/cordilheiras-ordraco.png',
   'Ferrova': './assets/images/locations/ferrova.png',
+  'Engenópolis': './assets/images/locations/engenopolis.png',
 };
 let scale = 1, fitScale = 1, x = 0, y = 0;
 let selected = null, lastMarker = null, gallerySource = '';
