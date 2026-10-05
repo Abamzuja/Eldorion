@@ -36,6 +36,10 @@ const locationImages = {
   'Tempodora': './assets/images/locations/tempodora.png',
   'Alto Trovão': './assets/images/locations/alto-trovao.png',
   'Ilhas Draca’el': './assets/images/locations/dracael.png',
+  'Bastião Umbral': './assets/images/locations/bastiao-umbral.png',
+  'Caldra': './assets/images/locations/caldra.png',
+  'Forja Silenciosa': './assets/images/locations/forja-silenciosa.png',
+  'Glacialis': './assets/images/locations/glacialis.png',
 };
 let scale = 1, fitScale = 1, x = 0, y = 0;
 let selected = null, lastMarker = null, gallerySource = '';
