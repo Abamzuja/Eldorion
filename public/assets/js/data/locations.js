@@ -11,7 +11,7 @@ const places = [
     "Verdantia",
     32.433,
     23.635,
-    "Esculpida nas entranhas das montanhas, esta cidade anã protege suas entradas com muralhas imponentes. Suas forjas alimentam uma tradição de trabalho e criação, sob a liderança de conselhos de clãs.",
+    "Esculpida nas montanhas, esta cidade anã protege suas entradas com muralhas imponentes. Suas forjas alimentam uma tradição de trabalho e criação, sob a liderança de conselhos de clãs.",
   ],
   [
     "Engenópolis",

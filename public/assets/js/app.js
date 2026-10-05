@@ -8,6 +8,23 @@ const gallery = document.querySelector('#gallery');
 const loader = document.querySelector('#loader');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const mobile = matchMedia('(max-width: 700px)');
+const locationImages = {
+  'Aurora Magna': './assets/images/locations/aurora-magna/aurora-magna.png',
+  'Floresta dos Sonhos': './assets/images/locations/floresta-sonho.png',
+  'Vila Hikuru': './assets/images/locations/vila-hikuru.png',
+  'Pastoralia': './assets/images/locations/pastoralia.png',
+  'Tormenitas': './assets/images/locations/tormenitas.png',
+  'Garramorte': './assets/images/locations/garramorte.png',
+  'Costa Esmeralda': './assets/images/locations/costa-esmeralda.png',
+  'Farol Afogado': './assets/images/locations/farol-afogado.png',
+  'Coralinas': './assets/images/locations/coralinas.png',
+  'Terras Perdidas de Lysara': './assets/images/locations/terras-lysara.png',
+  'Ruínas Anorathius': './assets/images/locations/anorathius.png',
+  'Grutas Sombris': './assets/images/locations/grutas-sombris.png',
+  'Sylvanthal': './assets/images/locations/sylvanthal.png',
+  'Cordilheiras Ordraco': './assets/images/locations/cordilheiras-ordraco.png',
+  'Ferrova': './assets/images/locations/ferrova.png',
+};
 let scale = 1, fitScale = 1, x = 0, y = 0;
 let selected = null, lastMarker = null, gallerySource = '';
 let animation = 0, moved = false, suppressClickUntil = 0;
@@ -84,7 +101,7 @@ function setPicture(src, caption) {
   img.onerror = () => {
     const message = document.createElement('p');
     message.className = 'image-error';
-    message.textContent = 'Não foi possível carregar esta imagem. Selecione “No mapa” para voltar.';
+    message.textContent = 'Não foi possível carregar esta imagem.';
     gallery.replaceChildren(message);
   };
   img.src = src;
@@ -103,22 +120,12 @@ function show(p, button) {
   panel.hidden = false;
   document.body.classList.add('panel-open');
   panel.scrollTop = 0;
-  gallerySource = '';
-  crop(p);
+  setPicture(
+    locationImages[p[0]] || '',
+    `Vista de ${p[0]}`
+  );
   const thumbs = document.querySelector('#thumbs');
   thumbs.replaceChildren();
-  if (p[0] === 'Aurora Magna') {
-    [['', 'No mapa'], ...aurora].forEach(([src, title], index) => {
-      const item = document.createElement('button');
-      item.textContent = title;
-      item.setAttribute('aria-pressed', String(index === 0));
-      item.onclick = () => {
-        thumbs.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === item)));
-        setPicture(src, title);
-      };
-      thumbs.append(item);
-    });
-  }
   const { w, h } = area();
   const next = Math.max(scale, fitScale * 1.7);
   const cx = mobile.matches ? w / 2 : (w - panel.offsetWidth) / 2;
