@@ -10,6 +10,7 @@
     />
     <link rel="icon" href="./assets/icons/favicon.svg" />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="./assets/css/atlas.css" />
   </head>
   <body>
     <div id="loader" hidden role="status" aria-live="polite">
@@ -24,9 +25,76 @@
       </p></noscript
     >
     <header>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-controls="atlas-sidebar"
+        aria-expanded="true"
+        aria-label="Recolher menu"
+      >
+        ☰
+      </button>
       <h1>Eldorion <span>Atlas do mundo</span></h1>
-      <p>Arraste para explorar · Selecione um local</p>
+      <p id="header-hint">Arraste para explorar · Selecione um local</p>
     </header>
+    <aside id="atlas-sidebar" aria-label="Navegação do atlas">
+      <div class="sidebar-heading">
+        <span aria-hidden="true">✦</span
+        ><span class="nav-label">Explore Eldorion</span>
+      </div>
+      <nav aria-label="Seções do atlas">
+        <button
+          data-section="mapa"
+          aria-label="Mapa"
+          aria-current="page"
+          title="Mapa"
+        >
+          <span class="nav-icon" aria-hidden="true">◈</span
+          ><span class="nav-label">Mapa</span>
+        </button>
+        <button data-section="historia" title="História" aria-label="História">
+          <span class="nav-icon" aria-hidden="true">◷</span
+          ><span class="nav-label">História</span>
+        </button>
+        <button
+          data-section="guildas"
+          title="Guildas e facções"
+          aria-label="Guildas e facções"
+        >
+          <span class="nav-icon" aria-hidden="true">⚑</span
+          ><span class="nav-label">Guildas e facções</span>
+        </button>
+        <button
+          data-section="pessoas"
+          title="Pessoas importantes"
+          aria-label="Pessoas importantes"
+        >
+          <span class="nav-icon" aria-hidden="true">♙</span
+          ><span class="nav-label">Pessoas importantes</span>
+        </button>
+        <button data-section="locais" title="Locais" aria-label="Locais">
+          <span class="nav-icon" aria-hidden="true">⌖</span
+          ><span class="nav-label">Locais</span>
+        </button>
+      </nav>
+      <p class="sidebar-footer nav-label">
+        Um mundo de histórias<br />para descobrir.
+      </p>
+    </aside>
+    <button
+      id="menu-backdrop"
+      hidden
+      tabindex="-1"
+      aria-label="Fechar menu"
+    ></button>
+    <section id="atlas-content" hidden aria-labelledby="section-title">
+      <div class="atlas-page">
+        <p class="eyebrow">Atlas de Eldorion</p>
+        <h2 id="section-title" tabindex="-1"></h2>
+        <p id="section-intro"></p>
+        <div id="section-body"></div>
+      </div>
+    </section>
     <main
       id="viewport"
       tabindex="0"
@@ -50,7 +118,21 @@
       ><button id="in" aria-label="Aumentar zoom">+</button>
     </nav>
     <section id="detail" hidden role="region" aria-labelledby="place-title">
-      <button class="close" aria-label="Fechar detalhes">×</button>
+      <button class="close" type="button" aria-label="Fechar detalhes">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M6 6L18 18M18 6L6 18" />
+        </svg>
+      </button>
       <div id="gallery"></div>
       <article>
         <p id="place-region" class="eyebrow"></p>
@@ -61,5 +143,7 @@
     </section>
     <script src="./assets/js/data/locations.js"></script>
     <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/history.js"></script>
+    <script src="./assets/js/atlas.js"></script>
   </body>
 </html>
