@@ -11,7 +11,7 @@ const places = [
     "Verdantia",
     32.433,
     23.635,
-    "Esculpida nas montanhas, esta cidade anã protege suas entradas com muralhas imponentes. Suas forjas alimentam uma tradição de trabalho e criação, sob a liderança de conselhos de clãs.",
+    "Esculpida nas montanhas, esta cidade protege suas entradas com muralhas imponentes. Suas forjas alimentam uma tradição de trabalho e criação, sob a liderança de conselhos de clãs.",
   ],
   [
     "Engenópolis",
@@ -29,7 +29,7 @@ const places = [
   ],
   [
     "Azharat",
-    "Aniloria · Deserto dos Espelhos",
+    "Aniloria",
     85.218,
     34.006,
     "Conhecida como A Joia de Aniloria, Azharat ergue-se sobre pilares naturais esculpidos, entre rios de nascente subterrânea. É o principal centro dos cristais exclusivos do deserto.",
@@ -39,7 +39,7 @@ const places = [
     "Aniloria",
     73.146,
     43.721,
-    "Um porto de encontro entre culturas e conhecimentos de todos os continentes. Imparcial e governado por um conselho anônimo, é uma referência para quem busca intercâmbio e aprendizado.",
+    "Um porto de encontro entre culturas e conhecimentos de todos os continentes. Imparcial e governado por um conselho anônimo, é uma referência no âmbito do comércio para o resto do mundo.",
   ],
   [
     "Alto Trovão",
@@ -50,7 +50,7 @@ const places = [
   ],
   [
     "Tempodora",
-    "Ilha ao norte de Serpenat",
+    "Serpenat",
     57.373,
     56.56,
     "Engenheiros e magos construíram máquinas movidas a magia para manter o tempo em perfeita sincronia. Nesta cidade industrial, uma oligarquia de mestres relojoeiros conduz o governo.",
@@ -88,7 +88,7 @@ const places = [
     "Ilhas Draca’el",
     87.178,
     81.553,
-    "No centro do arquipélago, torres obsidianas e praças sombrias abrigam o coração da cultura tiefling. A magia percorre as ruas desta cidade governada por um conselho de lordes.",
+    "Nessa cidade isolada, torres e praças obsidianas abrigam o coração da cultura tiefling. A magia percorre as ruas desta cidade governada por um conselho de lordes.",
   ],
   [
     "Glacialis",
@@ -135,7 +135,7 @@ const places = [
     "Verdantia",
     23.761,
     17.303,
-    "Uma cadeia montanhosa rica em minerais e cercada por lendas de dragões. Seus materiais mágicos alimentam a tradição dos mestres anões na criação de armas e armaduras.",
+    "Uma cadeia montanhosa rica em minerais e cercada por lendas de dragões. Seus materiais mágicos alimentam a tradição dos mestres ferreiros na criação de armas e armaduras.",
     true,
   ],
   [
@@ -143,7 +143,7 @@ const places = [
     "Arquipélago oriental",
     87.713,
     73.204,
-    "Antigos clãs e reinos dracônicos dominaram este arquipélago. Parcialmente destruídas pelas guerras, as ilhas hoje abrigam sobretudo cidades e reinos tieflings.",
+    "Antigamente, clãs e reinos dracônicos dominaram este arquipélago. Mesmo ainda parcialmente destruídas pelas guerras passadas, as ilhas abrigam reinos, cidades e vilas importantes para a cultura de Eldorion.",
     true,
   ],
   [
@@ -151,7 +151,7 @@ const places = [
     "Serpenat",
     67.919,
     79.847,
-    "Praias e enseadas secretas marcam a costa sudeste de Serpenat. Piratas escondem tesouros e aportam na região, enquanto monstros marinhos ameaçam as viagens pelo oceano.",
+    "Lindas praias e enseadas marcam a costa sudeste de Serpenat. Famosa pela cultura pirata e pelos monstros marinhos que ameaçam as viagens pelo oceano.",
     true,
   ],
   [
@@ -226,7 +226,7 @@ const places = [
     "Ilhas Draca’el",
     90.986,
     63.231,
-    "Uma forja mítica situada em dentro de um vulcão ativo ao norte das Ilhas Draca’el, próximo de Caldra.",
+    "Uma forja mítica situada no interior de um vulcão ativo ao norte das Ilhas Draca’el, próximo de Caldra.",
     true,
   ],
 ];
