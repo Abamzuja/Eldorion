@@ -620,3 +620,50 @@ button:focus-visible,
     display: none;
   }
 }
+
+/* Continentes e arquipélagos: visibilidade progressiva por zoom. */
+.area-label,
+.world-overview .marker.world-place {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  max-width: 240px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #042b3f35;
+  color: #fff0cc;
+  font: 500 clamp(18px, 2.2vw, 30px) Georgia, serif;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-shadow: 0 2px 5px #00131b, 0 0 12px #00131b;
+  box-shadow: none;
+  white-space: normal;
+  cursor: pointer;
+  touch-action: none;
+  transition: opacity .18s, background .18s, border-color .18s;
+}
+.area-label:hover,
+.area-label:focus-visible,
+.world-overview .marker.world-place:hover,
+.world-overview .marker.world-place:focus-visible {
+  background: #042b3fc9;
+  border-color: #d6bd7e;
+  outline: 2px solid #fff0cc;
+  outline-offset: 3px;
+}
+.world-overview .marker.world-place::before {
+  display: none;
+}
+/* Retirada imediata da interação; reaparecimento com transição suave. */
+#markers .marker { transition: opacity .18s, background .18s, color .18s, box-shadow .18s; }
+#markers .label-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .area-label, #markers .marker { transition: none; }
+}

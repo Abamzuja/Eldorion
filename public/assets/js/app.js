@@ -75,6 +75,7 @@ function render() {
   map.style.transform = `translate(${x}px, ${y}px)`;
   document.querySelector("#out").disabled = scale <= fitScale + 0.001;
   document.querySelector("#in").disabled = scale >= fitScale * 5 - 0.001;
+  updateMapLabels();
 }
 function stopAnimation() {
   cancelAnimationFrame(animation);
@@ -190,9 +191,91 @@ function closePanel() {
   selected = null;
   render();
 }
+// Zoom relativo ao enquadramento do mapa inteiro.
+const REGION_ZOOM = 1.45;
+const worldPlaces = new Set(['Glacialis', 'Alto Trovão', 'Coralinas']);
+const mapAreas = [
+  { name: 'Verdantia', places: places.filter(p => p[1].startsWith('Verdantia')) },
+  { name: 'Aniloria', places: places.filter(p => p[1].startsWith('Aniloria')) },
+  { name: 'Serpenat', places: places.filter(p => p[1].startsWith('Serpenat') || p[0] === 'Tempodora') },
+  { name: 'Ilhas Draca’el', places: places.filter(p => p[1] === 'Ilhas Draca’el' || p[0] === 'Ilhas Draca’el') },
+];
+const areaButtons = [];
+const placeButtons = [];
+
+// Limites de navegação estimados pelos locais, sem modificar suas coordenadas.
+function getAreaBounds(items) {
+  const xs = items.map(p => p[2]);
+  const ys = items.map(p => p[3]);
+  const left = Math.min(...xs), right = Math.max(...xs);
+  const top = Math.min(...ys), bottom = Math.max(...ys);
+  return {
+    centerX: (left + right) / 2,
+    centerY: (top + bottom) / 2,
+    width: Math.max(16, right - left + 12),
+    height: Math.max(20, bottom - top + 14),
+  };
+}
+function focusMapArea(items) {
+  if (!items.length) return;
+  if (!panel.hidden) closePanel();
+  const bounds = getAreaBounds(items);
+  const { w, h } = area();
+  const targetScale = Math.min(
+    w * 0.9 / (mapWidth * bounds.width / 100),
+    h * 0.9 / (mapHeight * bounds.height / 100)
+  );
+  const next = clamp(Math.max(targetScale, fitScale * 1.5), fitScale, fitScale * 5);
+  viewport.focus({ preventScroll: true });
+  go(next,
+    w / 2 - bounds.centerX / 100 * mapWidth * next,
+    h / 2 - bounds.centerY / 100 * mapHeight * next,
+    true
+  );
+}
+function setMapLabelVisible(button, visible) {
+  if (!visible && document.activeElement === button) {
+    viewport.focus({ preventScroll: true });
+  }
+  button.classList.toggle('label-hidden', !visible);
+  button.inert = !visible;
+  button.tabIndex = visible ? 0 : -1;
+  button.setAttribute('aria-hidden', String(!visible));
+}
+function updateMapLabels() {
+  const zoom = scale / fitScale;
+  const overview = zoom + 1e-6 < REGION_ZOOM;
+  map.classList.toggle('world-overview', overview);
+  areaButtons.forEach(button => setMapLabelVisible(button, overview));
+  placeButtons.forEach(({ button, place }) => {
+    // Todos os locais surgem juntos ao sair da visão geral.
+    const visible = selected === place || worldPlaces.has(place[0]) || !overview;
+    setMapLabelVisible(button, visible);
+  });
+}
+mapAreas.forEach(group => {
+  if (!group.places.length) return;
+  const bounds = getAreaBounds(group.places);
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'area-label';
+  button.textContent = group.name;
+  button.style.left = `${bounds.centerX}%`;
+  button.style.top = `${bounds.centerY}%`;
+  button.setAttribute('aria-label', `Explorar ${group.name}`);
+  button.onclick = () => {
+    if (performance.now() < suppressClickUntil) return;
+    focusMapArea(group.places);
+  };
+  document.querySelector('#markers').append(button);
+  areaButtons.push(button);
+});
+
 places.forEach((p) => {
   const button = document.createElement("button");
+  button.type = "button";
   button.className = `marker${p[5] ? " region" : ""}`;
+  if (worldPlaces.has(p[0])) button.classList.add("world-place");
   button.style.left = `${p[2]}%`;
   button.style.top = `${p[3]}%`;
   button.title = p[0];
@@ -202,9 +285,14 @@ places.forEach((p) => {
   button.setAttribute("aria-expanded", "false");
   button.onclick = () => {
     if (performance.now() < suppressClickUntil) return;
+    if (worldPlaces.has(p[0]) && scale / fitScale < REGION_ZOOM) {
+      focusMapArea([p]);
+      return;
+    }
     show(p, button);
   };
   document.querySelector("#markers").append(button);
+  placeButtons.push({ button, place: p });
 });
 
 // Prevent the browser's native drag/selection from interrupting map panning.
@@ -228,7 +316,7 @@ viewport.addEventListener("pointerdown", (event) => {
   if (event.button !== 0) return;
   // Suppress native image/text dragging before it can trigger pointercancel.
   if (event.pointerType !== "touch") event.preventDefault();
-  const marker = event.target.closest(".marker");
+  const marker = event.target.closest(".marker, .area-label");
   (marker || viewport).focus({ preventScroll: true });
   stopAnimation();
   if (!pointers.size) moved = false;

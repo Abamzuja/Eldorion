@@ -481,3 +481,19 @@ body.atlas-reading #viewport {
     padding: 20px;
   }
 }
+
+
+/* Imagens das luas dentro de suas respectivas caixas de descrição. */
+.history-moons article {
+  display: flex;
+  flex-direction: column;
+}
+.history-moons .moon-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+  object-fit: contain;
+  margin-top: auto;
+  padding-top: 22px;
+}

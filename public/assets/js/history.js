@@ -13,8 +13,8 @@ function renderHistory(container) {
       <p class="eyebrow">As Luas de Eldorion</p>
       <h3 id="moons-title">Éteris e Abissis</h3>
       <div class="history-moons">
-        <article><h4>Éteris</h4><p>Grande e majestosa, Éteris é avistada quase sempre, tanto nos céus noturnos quanto durante o dia. Sua presença frequentemente encobre a lua menor.</p></article>
-        <article><h4>Abissis</h4><p>Menor, marcada por crateras e parcialmente destruída, Abissis percorre o céu acompanhada por seus próprios fragmentos. Há relatos de anos sem que fosse vista e de dezenas de noites consecutivas em que apareceu. Segundo uma crença comum, sua presença visível anuncia que o mal aflora em Eldorion.</p></article>
+        <article><h4>Éteris</h4><p>Grande e majestosa, Éteris é avistada quase sempre, tanto nos céus noturnos quanto durante o dia. Sua presença frequentemente encobre a lua menor.</p><img class="moon-image" src="./assets/images/eteris.png" alt="Ilustração da lua Éteris" loading="lazy" decoding="async" /></article>
+        <article><h4>Abissis</h4><p>Menor, marcada por crateras e parcialmente destruída, Abissis percorre o céu acompanhada por seus próprios fragmentos. Há relatos de anos sem que fosse vista e de dezenas de noites consecutivas em que apareceu. Segundo uma crença comum, sua presença visível anuncia que o mal aflora em Eldorion.</p><img class="moon-image" src="./assets/images/abissis.png" alt="Ilustração da lua Abissis" loading="lazy" decoding="async" /></article>
       </div>
     </section>
     <section class="history-block" aria-labelledby="eras-title">
