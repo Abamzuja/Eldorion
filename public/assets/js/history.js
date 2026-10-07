@@ -6,15 +6,15 @@ function renderHistory(container) {
     <section class="history-block" aria-labelledby="world-history-title">
       <p class="eyebrow">O Mundo Entrelaçado</p>
       <h3 id="world-history-title">Sussurros do Passado</h3>
-      <p>Eldorion é um mundo vasto, formado pelos continentes de Aniloria, Serpenat e Verdantia, separados por amplos oceanos e acompanhados por ilhas. Seu nome de “Mundo Entrelaçado” vem das histórias sobre as Correntes Místicas, que entrelaçam o mundo e mantêm seu equilíbrio mágico.</p>
+      <p>Eldorion é um mundo vasto, formado pelos continentes de Aniloria, Serpenat e Verdantia, separados por amplos oceanos e acompanhados por ilhas. Seu apelido de “Mundo Entrelaçado” vem das histórias sobre as Correntes Místicas, que entrelaçam o mundo e mantêm seu equilíbrio mágico.</p>
       <p>Os povos que hoje habitam essas terras conhecem apenas uma fração de seu passado. A origem de Eldorion remonta à Confluência Arcana, e sua história conhecida é organizada em seis grandes eras.</p>
     </section>
     <section class="history-block" aria-labelledby="moons-title">
       <p class="eyebrow">As Luas de Eldorion</p>
       <h3 id="moons-title">Éteris e Abissis</h3>
       <div class="history-moons">
-        <article><h4>Éteris</h4><p>Grande e majestosa, Éteris é avistada quase sempre, tanto nos céus noturnos quanto durante o dia. Sua presença frequentemente encobre a lua menor.</p><img class="moon-image" src="./assets/images/eteris.png" alt="Ilustração da lua Éteris" loading="lazy" decoding="async" /></article>
-        <article><h4>Abissis</h4><p>Menor, marcada por crateras e parcialmente destruída, Abissis percorre o céu acompanhada por seus próprios fragmentos. Há relatos de anos sem que fosse vista e de dezenas de noites consecutivas em que apareceu. Segundo uma crença comum, sua presença visível anuncia que o mal aflora em Eldorion.</p><img class="moon-image" src="./assets/images/abissis.png" alt="Ilustração da lua Abissis" loading="lazy" decoding="async" /></article>
+        <article><h4>Éteris</h4><p>Grande e majestosa, Éteris é avistada quase sempre, tanto nos céus noturnos quanto durante o dia. Sua presença se tornou um pilar importante para algumas religiões que veneram a lua como deusa.</p><img class="moon-image" src="./assets/images/eteris.png" alt="Ilustração da lua Éteris" loading="lazy" decoding="async" /></article>
+        <article><h4>Abissis</h4><p>Menor, marcada por crateras, parcialmente destruída, e com estruturas construídas ao seu redor, Abissis percorre o céu acompanhada por seus próprios fragmentos. Há relatos de anos sem que fosse vista e de dezenas de noites consecutivas em que apareceu. Segundo uma crença comum, sua presença visível anuncia que o mal aflora em Eldorion.</p><img class="moon-image" src="./assets/images/abissis.png" alt="Ilustração da lua Abissis" loading="lazy" decoding="async" /></article>
       </div>
     </section>
     <section class="history-block" aria-labelledby="eras-title">
@@ -43,7 +43,7 @@ function renderHistory(container) {
         <li><article>
           <p class="era-period">1.000 D.P. → 1.350 D.P.</p>
           <h4>Era das Trevas</h4>
-          <p>Em 1.000 D.P., os primeiros sinais do Flagelo de Tiamat inauguraram o Crepúsculo do Milênio. Tempodora esteve entre as primeiras cidades atingidas. Heróis de vários povos, armados com artefatos divinos, enfrentaram e selaram a ameaça.</p>
+          <p>Em 1.000 D.P., os primeiros sinais do Flagelo de Tiamat inauguraram o Crepúsculo do Milênio. Heróis de vários povos, armados com artefatos divinos, enfrentaram e selaram a ameaça.</p>
           <div class="era-phases"><p><strong>Crepúsculo do Milênio · 1.000–1.130 D.P.</strong>Período marcado pela manifestação do Flagelo e pela luta contra a ameaça.</p><p><strong>As Trevas Persistem · 1.130–1.350 D.P.</strong>Mesmo após a vitória, cultos, corrupção e dificuldades de sobrevivência continuaram a assolar o mundo.</p></div>
         </article></li>
         <li><article>

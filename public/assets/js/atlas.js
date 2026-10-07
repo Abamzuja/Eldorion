@@ -15,7 +15,7 @@
       "Da Confluência Arcana à Época de Ouro: conheça o passado e o presente do Mundo Entrelaçado.",
     ],
     guildas: [
-      "Guildas e facções",
+      "Guildas e Facções",
       "Descubra as organizações que fazem parte da vida de Eldorion.",
       "Novos registros em breve",
       "Aqui você poderá conhecer as guildas, suas atividades, lideranças e sedes.",
@@ -23,7 +23,7 @@
     pessoas: [
       "Pessoas importantes",
       "Conheça os nomes e rostos presentes nas histórias de Eldorion.",
-      "Retratos e histórias em breve",
+      "Novos registros em breve",
       "Esta seção reunirá as figuras importantes do mundo e suas ligações com os lugares e organizações.",
     ],
     locais: [
