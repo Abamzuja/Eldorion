@@ -10,6 +10,7 @@
   const nav = [...sidebar.querySelectorAll("[data-section]")];
   const sections = {
     mapa: ["Mapa", "Arraste para explorar · Selecione um local"],
+    missoes: ["Missões", "O diário da campanha: objetivos, descobertas e próximos passos do grupo."],
     historia: [
       "História",
       "Da Confluência Arcana à Época de Ouro: conheça o passado e o presente do Mundo Entrelaçado.",
@@ -57,6 +58,7 @@
     content.inert = blocked;
     controls.inert = blocked;
     panel.inert = blocked;
+    document.dispatchEvent(new CustomEvent("atlas:navigation", { detail: { section: current, menuOpen: blocked } }));
   }
   toggle.addEventListener("click", () => {
     if (mobile.matches)
@@ -197,7 +199,8 @@
     title.textContent = sections[key][0];
     document.querySelector("#section-intro").textContent = sections[key][1];
     body.replaceChildren();
-    if (key === "historia") renderHistory(body);
+    if (key === "missoes") window.renderQuestPage(body);
+    else if (key === "historia") renderHistory(body);
     else if (key === "locais") renderLocations();
     else {
       const empty = element("div", "", "atlas-empty");
@@ -215,6 +218,10 @@
       selectSection(button.dataset.section),
     ),
   );
+  document.addEventListener("atlas:request-navigation", event => {
+    selectSection(event.detail.section, false);
+    if (event.detail.section !== "mapa") title.focus({ preventScroll: true });
+  });
   // Observe the map's available space when the desktop sidebar changes width.
   new ResizeObserver(resize).observe(viewport);
   updateMenu();
