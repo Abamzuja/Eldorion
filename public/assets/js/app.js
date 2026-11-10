@@ -146,6 +146,7 @@ function setPicture(src, caption) {
   img.draggable = false;
   img.alt = caption;
   img.onerror = () => {
+    if (gallery.firstElementChild !== img) return;
     const message = document.createElement("p");
     message.className = "image-error";
     message.textContent = "Não foi possível carregar esta imagem.";
@@ -153,6 +154,39 @@ function setPicture(src, caption) {
   };
   img.src = src;
   gallery.replaceChildren(img);
+}
+// A visão geral usa os dados originais. Locais extras ficam em location-details.js.
+function buildDetailNavigation(p) {
+  const navigation = document.querySelector('#detail-navigation');
+  const thumbs = document.querySelector('#thumbs');
+  const registered = typeof locationDetails !== 'undefined' ? locationDetails[p[0]] : [];
+  const extras = Array.isArray(registered) ? registered.filter(item => item && typeof item.title === 'string' && item.title.trim()) : [];
+  const views = [{ title: p[0], image: locationImages[p[0]] || '', description: p[4] }, ...extras];
+  const buttons = [];
+  thumbs.replaceChildren();
+  navigation.hidden = extras.length === 0;
+  function selectView(value) {
+    const index = clamp(value, 0, views.length - 1);
+    const view = views[index];
+    document.querySelector('#place-title').textContent = view.title;
+    document.querySelector('#place-region').textContent = index === 0 ? p[1] : `${p[0]} · ${p[1]}`;
+    document.querySelector('#place-description').textContent = view.description || '';
+    setPicture(view.image || '', index === 0 ? `Vista de ${p[0]}` : `${view.title} — ${p[0]}`);
+    buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
+
+  }
+  if (extras.length) {
+    views.forEach((view, i) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = i === 0 ? 'Visão geral' : view.title;
+      button.title = i === 0 ? `Visão geral de ${p[0]}` : view.title;
+      button.setAttribute('aria-controls', 'gallery place-title place-description');
+      button.addEventListener('click', () => selectView(i));
+      thumbs.append(button); buttons.push(button);
+    });
+  }
+  selectView(0);
 }
 function show(p, button) {
   selected = p;
@@ -167,9 +201,7 @@ function show(p, button) {
   panel.hidden = false;
   document.body.classList.add("panel-open");
   panel.scrollTop = 0;
-  setPicture(locationImages[p[0]] || "", `Vista de ${p[0]}`);
-  const thumbs = document.querySelector("#thumbs");
-  thumbs.replaceChildren();
+  buildDetailNavigation(p);
   const { w, h } = area();
   const next = Math.max(scale, fitScale * 1.7);
   const cx = mobile.matches ? w / 2 : (w - panel.offsetWidth) / 2;
