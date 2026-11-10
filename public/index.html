@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="stylesheet" href="./assets/css/atlas.css" />
     <link rel="stylesheet" href="./assets/css/quests.css" />
+    <link rel="stylesheet" href="./assets/css/location-details.css" />
   </head>
   <body>
     <div id="loader" hidden role="status" aria-live="polite">
@@ -149,14 +150,18 @@
         </svg>
       </button>
       <div id="gallery"></div>
-      <article>
+      <div id="detail-navigation" hidden role="group" aria-label="Locais nesta cidade ou região">
+        <div class="detail-navigation-heading"><p>Explore este lugar</p></div>
+        <div id="thumbs" role="group" aria-label="Selecionar local"></div>
+      </div>
+      <article aria-live="polite" aria-atomic="true">
         <p id="place-region" class="eyebrow"></p>
         <h2 id="place-title"></h2>
         <p id="place-description"></p>
-        <div id="thumbs"></div>
       </article>
     </section>
     <script src="./assets/js/data/locations.js"></script>
+    <script src="./assets/js/data/location-details.js"></script>
     <script src="./assets/js/app.js"></script>
     <script src="./assets/js/history.js"></script>
     <script src="./assets/js/atlas.js"></script>
