@@ -5,37 +5,37 @@ const locationDetails = {
   'Aurora Magna': [
     {
       title: 'Praça de Aurora',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/praca-de-aurora.png',
       description: 'A Praça de Aurora abriga a estátua monumental do Guardião da Aurora. Os edifícios ao redor e o movimento de seus habitantes revelam a escala grandiosa do monumento.'
     },
     {
       title: 'Ponte da Aliança',
-      image: './assets/images/placeholder.png',
-      description: 'A Ponte da Aliança conecta o centro de Aurora Magna à Cidade Alta. Estátuas que representam os povos adornam o viaduto, enquanto uma rua de ladrilhos se estende abaixo dele.'
+      image: './assets/images/aurora-magna/ponte-da-alianca.png',
+      description: 'Um viaduto que liga duas partes da cidade com diversas lojinhas  que vendem objetos culturais de diversos povos espalhados por Eldorion. Ela foi construída para simbolizar a união das espécies após a Guerra das Fronteiras Verdes.'
     },
     {
       title: 'Palácio de Aurora',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/palacio-de-aurora.png',
       description: 'Construído em pedra e quartzo, o Palácio de Aurora se ergue na Cidade Alta, cercado pelo ambiente político e aristocrático da capital.'
     },
     {
       title: 'O Mercadão',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/mercadao.png',
       description: 'Conhecido como O Mercadão, o Mercado de Alyria Windrer reúne o comércio de produtos mágicos e encantados. Lanternas mantêm o mercado continuamente iluminado.'
     },
     {
       title: 'Torre Multíscia',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/torre-multiscia.png',
       description: 'A Torre Multíscia abriga uma biblioteca e espaços dedicados ao estudo. O conhecimento guardado ali faz da torre um importante lugar de pesquisa e aprendizado em Aurora Magna.'
     },
     {
       title: 'Catedral de Mystra',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/catedral-de-mystra.png',
       description: 'Vitrais vibrantes e ornamentações flutuantes compõem o interior da Catedral de Mystra. Seus espaços acolhem celebrações em um ambiente marcado pela presença da magia.'
     },
     {
       title: 'Casa das Artes',
-      image: './assets/images/placeholder.png',
+      image: './assets/images/aurora-magna/casa-das-artes.png',
       description: 'A Casa das Artes é um teatro onde magia e artes cênicas se encontram. Suas apresentações combinam a atuação dos artistas com efeitos mágicos que fazem parte do espetáculo.'
     }
   ]

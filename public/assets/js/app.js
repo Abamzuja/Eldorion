@@ -9,7 +9,7 @@ const loader = document.querySelector("#loader");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const mobile = matchMedia("(max-width: 700px)");
 const locationImages = {
-  'Aurora Magna': './assets/images/locations/aurora-magna/aurora-magna.png',
+  'Aurora Magna': './assets/images/aurora-magna/aurora-magna.png',
   'Floresta dos Sonhos': './assets/images/locations/floresta-sonho.png',
   'Vila Hikuru': './assets/images/locations/vila-hikuru.png',
   'Pastoralia': './assets/images/locations/pastoralia.png',

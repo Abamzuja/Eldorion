@@ -1,0 +1,15 @@
+/* Locais extras em duas colunas, abaixo da imagem da ficha. */
+#detail-navigation { padding: 14px 18px; background: #082832; border-bottom: 1px solid #bba06f40; }
+.detail-navigation-heading { margin-bottom: 10px; }
+.detail-navigation-heading p { margin: 0; color: #cbb784; font: 11px/1.5 system-ui,sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+#detail-navigation #thumbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 0; padding: 0; overflow: visible; }
+#detail-navigation #thumbs button { width: 100%; min-width: 0; max-width: none; min-height: 36px; box-sizing: border-box; white-space: normal; overflow-wrap: anywhere; text-align: center; font: 12px/1.35 system-ui,sans-serif; padding: 6px 8px; }
+#detail-navigation #thumbs button[aria-pressed="true"] { border-color: #edd6a0; background: #e6cca0; color: #0a3039; }
+#detail-navigation #thumbs button:focus-visible { outline: 2px solid #edd6a0; outline-offset: 2px; }
+#place-description { white-space: pre-line; }
+@media (max-width: 700px) {
+  #detail-navigation { padding: 12px; }
+}
+
+/* A visão geral é sempre o primeiro botão e ocupa toda a linha. */
+#detail-navigation #thumbs button:first-child { grid-column: 1 / -1; }
