@@ -1,0 +1,20 @@
+/* Cards de organizações, seguindo a apresentação da tela Locais. */
+.faction-filters { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
+.faction-filters .location-search { flex: 1 1 230px; }
+.faction-filters input, .faction-filters select { box-sizing: border-box; min-width: 0; }
+.faction-filters select { width: 100%; padding: 13px 16px; border: 1px solid #bba06f80; border-radius: 7px; background: #062532; color: #fff0cc; font: 16px system-ui,sans-serif; }
+.faction-count { color: #a8c0c0; font: 13px system-ui,sans-serif; margin: 18px 0; }
+.faction-grid { align-items: start; }
+.faction-card { min-width: 0; overflow-wrap: anywhere; }
+.faction-image { width: 100%; height: 180px; object-fit: contain; background: #06212b; border-radius: 6px; margin-bottom: 20px; }
+.faction-card .description { white-space: pre-line; }
+.faction-details { border-top: 1px solid #d6bd7e40; padding-top: 14px; }
+.faction-details summary { color: #ffe1a4; font: 14px/1.6 system-ui,sans-serif; cursor: pointer; padding: 6px 0; }
+.faction-details summary:hover { color: #fff0cc; }
+.faction-details summary:focus-visible, .faction-filters select:focus-visible { outline: 2px solid #e6cca0; outline-offset: 3px; }
+.faction-information { padding-top: 16px; color: #c3d4d3; font: 14px/1.65 system-ui,sans-serif; }
+.faction-information h4 { color: #e4d5b6; font-size: 14px; margin: 18px 0 6px; }
+.faction-information ul { padding-left: 20px; margin: 0; }
+.faction-metadata { margin: 0; }
+.faction-metadata dt { color: #e4d5b6; font-weight: 600; margin-top: 12px; }
+.faction-metadata dd { margin: 4px 0 0; white-space: pre-line; }
