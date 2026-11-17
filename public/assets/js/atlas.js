@@ -16,7 +16,7 @@
       "Da Confluência Arcana à Época de Ouro: conheça o passado e o presente do Mundo Entrelaçado.",
     ],
     guildas: [
-      "Guildas e Facções",
+      "Grupos e Facções",
       "Descubra as organizações que fazem parte da vida de Eldorion.",
       "Novos registros em breve",
       "Aqui você poderá conhecer as guildas, suas atividades, lideranças e sedes.",
@@ -202,6 +202,7 @@
     if (key === "missoes") window.renderQuestPage(body);
     else if (key === "historia") renderHistory(body);
     else if (key === "locais") renderLocations();
+    else if (key === "guildas") window.renderFactionPage(body);
     else {
       const empty = element("div", "", "atlas-empty");
       empty.append(
